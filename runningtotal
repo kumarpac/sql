@@ -1,0 +1,26 @@
+#Calculate running total
+sum of salary
+
+running_total.csv
+id,name,gender,salary
+1,pawan,male,5000
+2,mark,male,4500
+3,john,male,5500
+4,sara,female,4000
+5,tood,male,3500
+
+create table runningtotal(id int,name string,gender string,sal int)
+row format delimited
+fields terminated by ','
+stored as textfile
+tblproperties("skip.header.line.count"="1");
+
+load data inpath '/user/root/running_total.csv' into table runningtotal;
+
+
+select a.id,a.name,a.gender,a.sal,sum(b.sal) 
+from runningtotal a 
+inner join runningtotal b 
+on a.id>=b.id
+group by a.id,a.name,a.gender,a.sal
+order by a.id;
